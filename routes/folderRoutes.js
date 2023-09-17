@@ -7,7 +7,7 @@ const multer=require("multer");
 const router=express.Router();
 
 // Create a directory for storing uploaded files
-const uploadDirectory = path.join(__dirname, '../AllFolder/ZipFile');
+const uploadDirectory = path.join(__dirname, '../File');
 fs.mkdirSync(uploadDirectory, { recursive: true });
    
 // Set up Multer for file uploads

@@ -13,13 +13,13 @@ module.exports.addFolder=async(req,res,next)=>{
         //   console.log(req.file);
 
             
-            const fileUrl = `${req.protocol}://${req.get('host')}/AllFolder/ZipFile/${req.file.filename}`;
+            const fileUrl = `${req.protocol}://${req.get('host')}/File/${req.file.filename}`;
             // return res.send(`File uploaded successfully. You can access it here: ${fileUrl}`);
             // console.log(fileUrl);
               // extract zip file
         let folderName=req.file.originalname.slice(0, -4);
-        const zipFilePath = `./AllFolder/ZipFile/${req.file.filename}`; // Replace with the path to your ZIP file
-        const extractionDir = `./AllFolder`; // Replace with the extraction destination
+        const zipFilePath = `./File/${req.file.filename}`; // Replace with the path to your ZIP file
+        const extractionDir = `./File`; // Replace with the extraction destination
 
         fs.createReadStream(zipFilePath)
             .pipe(unzipper.Extract({ path: extractionDir }))
@@ -37,7 +37,7 @@ module.exports.addFolder=async(req,res,next)=>{
             .on('close', async () => {
                 console.log(`ZIP file extracted to ${extractionDir}`);
                 // calling folderTraverse
-                const folderPathToTraverse = `./AllFolder/${folderName}`;
+                const folderPathToTraverse = `./File/${folderName}`;
                 folderStructure = buildFolderStructure(folderPathToTraverse);
                 console.log(folderStructure);
                 const folder=await Folder.create({folderStructure,fileUrl});
@@ -92,7 +92,7 @@ module.exports.addFolder=async(req,res,next)=>{
 
 module.exports.addImage=async(req,res,next)=>{
     try {
-        const fileUrl = `${req.protocol}://${req.get('host')}/AllFolder/ZipFile/${req.file.filename}`;
+        const fileUrl = `${req.protocol}://${req.get('host')}/File/${req.file.filename}`;
         res.json(fileUrl);
     } catch (error) {
         next(error);
